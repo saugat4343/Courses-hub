@@ -3,9 +3,9 @@ import { Heading, Image, Text, Button, Stack, VStack, Box, HStack } from "@chakr
 import "./home.css"
 import { Link } from 'react-router-dom';
 import vg from "../../assets/images/bg2.png"
-import {CgGoogle, CgYoutube} from "react-icons/cg"
-import {DiAws} from "react-icons/di"
-import {SiCoursera, SiUdacity} from "react-icons/si"
+import { CgGoogle, CgYoutube } from "react-icons/cg"
+import { DiAws } from "react-icons/di"
+import { SiCoursera, SiUdacity } from "react-icons/si"
 import introVideo from "../../assets/videos/intro.mp4"
 
 const Home = () => {
@@ -24,10 +24,10 @@ const Home = () => {
           {/* Vertical Stack. direction: "column" */}
           <VStack width={"full"} alignItems={["center", "flex-end"]} spacing={"3"}>
 
-            <Heading children="LEARN EVERYTHING ONLINE" size={'2xl'} textAlign={["center", "right"]}/>
+            <Heading children="LEARN EVERYTHING ONLINE" size={'2xl'} textAlign={["center", "right"]} />
             <Text children="Find Valuable Content at Reasonable Price." fontSize={"2xl"} fontFamily={"cursive"} textAlign={["center", "right"]} />
             <Text textAlign={["center", "right"]}>
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
+              It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
             </Text>
             <Link to="/courses">
               <Button size={"lg"} colorScheme='blue'>
@@ -38,41 +38,41 @@ const Home = () => {
           </VStack>
 
           {/* width={"38%"} */}
-          <Image 
-            className='vector-graphics' 
-            boxSize={"md"} 
+          <Image
+            className='vector-graphics'
+            boxSize={"md"}
             src={vg}
             marginBottom="14"
-            objectFit="contain" 
+            objectFit="contain"
           />
 
         </Stack>
       </div>
 
       <Box padding={"8"} bg={"blackAlpha.800"}>
-        <Heading 
-          children="OUR BRANDS" 
-          textAlign={"center"} 
-          fontFamily={"body"} 
+        <Heading
+          children="OUR BRANDS"
+          textAlign={"center"}
+          fontFamily={"body"}
           color={"blue.400"}
         />
 
-        <HStack 
-          className='brandsBanner' 
-          justifyContent={"space-evenly"} 
+        <HStack
+          className='brandsBanner'
+          justifyContent={"space-evenly"}
           marginTop={'5'}
         >
-          <CgGoogle/>
-          <CgYoutube/>
-          <SiCoursera/>
-          <SiUdacity/>
-          <DiAws/>
+          <CgGoogle />
+          <CgYoutube />
+          <SiCoursera />
+          <SiUdacity />
+          <DiAws />
         </HStack>
       </Box>
 
       <div className="container2">
 
-        <video 
+        <video
           // autoPlay
           controls
           controlsList='nodownload nofullscreen noremoteplayback'
@@ -80,8 +80,8 @@ const Home = () => {
           disableRemotePlayback
           src={introVideo}
         >
-          
         </video>
+
       </div>
 
     </section>

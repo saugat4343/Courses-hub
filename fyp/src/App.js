@@ -8,6 +8,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import ForgotPassword from './components/Auth/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword';
+import About from './components/About/About';
 
 
 function App() {
@@ -16,11 +17,12 @@ function App() {
 
       <Header />
       <Routes>
-        <Route path='/' element={<Home />}/>
-        <Route path="/login" element={<Login />} /> 
-        <Route path='/courses' element={<Courses />}/>
-        <Route path="/register" element={<Register />} /> 
+        <Route path='/' element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path='/courses' element={<Courses />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/about" element={<About />} />
         <Route path="/resetpassword/:token" element={<ResetPassword />} />
       </Routes>
 
