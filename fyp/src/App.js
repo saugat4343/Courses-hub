@@ -9,6 +9,11 @@ import Register from './components/Auth/Register';
 import ForgotPassword from './components/Auth/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword';
 import About from './components/About/About';
+import Subscribe from './components/Payments/Subscribe';
+import PaymentFail from './components/Payments/PaymentFail';
+import PaymentSuccess from './components/Payments/PaymentSuccess';
+import NotFound from './components/Layout/NotFound/NotFound';
+import CoursePage from './components/CoursePage/CoursePage';
 
 
 function App() {
@@ -23,6 +28,11 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/about" element={<About />} />
+        <Route path="/subscribe" element={<Subscribe />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/paymentsuccess" element={<PaymentSuccess />} />
+        <Route path="/paymentfail" element={<PaymentFail />} />
+        <Route path="/course/:id" element={<CoursePage />} />
         <Route path="/resetpassword/:token" element={<ResetPassword />} />
       </Routes>
 
