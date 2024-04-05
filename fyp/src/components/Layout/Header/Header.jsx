@@ -16,7 +16,7 @@ const Header = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const isAuthenticated = false;
+    const isAuthenticated = true;
 
     const user = {
         role: "admin",
@@ -36,6 +36,7 @@ const Header = () => {
                 colorScheme='blue'
                 width={"12"}
                 height={"12"}
+                zIndex={"overlay"}
                 rounded={"full"}
                 position={"fixed"}
                 top={"6"}
