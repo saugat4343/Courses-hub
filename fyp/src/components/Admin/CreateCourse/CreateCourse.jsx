@@ -8,10 +8,17 @@ import {
   Image,
   Button,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cursor from '../../../assets/images/cursor.png';
 import Sidebar from '../Sidebar';
 import { fileUploadCss } from '../../Auth/Register';
+import { createCourse } from '../../../redux/actions/admin';
+import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import {
+  clearAdminError,
+  clearAdminMessage,
+} from '../../../redux/reducers/adminReducer';
 
 const CreateCourse = () => {
   const [title, setTitle] = useState('');
@@ -20,6 +27,9 @@ const CreateCourse = () => {
   const [category, setCategory] = useState('');
   const [image, setImage] = useState('');
   const [imagePrev, setImagePrev] = useState('');
+
+  const dispatch = useDispatch();
+  const { loading, error, message } = useSelector(state => state.admin);
 
   const categories = [
     'Web Development',
@@ -42,6 +52,31 @@ const CreateCourse = () => {
     };
   };
 
+  const submitHandler = e => {
+    e.preventDefault();
+
+    const myForm = new FormData();
+
+    myForm.append('title', title);
+    myForm.append('description', description);
+    myForm.append('category', category);
+    myForm.append('createdBy', createdBy);
+    myForm.append('file', image);
+
+    dispatch(createCourse(myForm));
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearAdminError(error));
+    }
+    if (message) {
+      toast.success(message);
+      dispatch(clearAdminMessage(message));
+    }
+  }, [dispatch, error, message]);
+
   return (
     <Grid
       css={{ cursor: `url(${cursor}), default` }}
@@ -49,7 +84,7 @@ const CreateCourse = () => {
       templateColumns={['1fr', '5fr 1fr']}
     >
       <Container py={'16'}>
-        <form>
+        <form onSubmit={submitHandler}>
           <Heading
             textTransform={'uppercase'}
             children="Create Course"
@@ -109,7 +144,12 @@ const CreateCourse = () => {
               <Image src={imagePrev} boxSize={'64'} objectFit={'contain'} />
             )}
 
-            <Button w={'full'} colorScheme="purple" type="submit">
+            <Button
+              isLoading={loading}
+              w={'full'}
+              colorScheme="purple"
+              type="submit"
+            >
               Create
             </Button>
           </VStack>

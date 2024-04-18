@@ -1,13 +1,41 @@
 import { Container, Heading, VStack, Input, Button } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { changePassword } from '../../redux/actions/profile';
+import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import {
+  clearProfileError,
+  clearProfileMessage,
+} from '../../redux/reducers/profileReducer';
 
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
+  const dispatch = useDispatch();
+
+  const submitHandler = e => {
+    e.preventDefault();
+
+    dispatch(changePassword(oldPassword, newPassword));
+  };
+
+  const { loading, message, error } = useSelector(state => state.profile);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearProfileError(error));
+    }
+    if (message) {
+      toast.success(message);
+      dispatch(clearProfileMessage(message));
+    }
+  }, [dispatch, error, message]);
+
   return (
     <Container py="16" minH={'90vh'}>
-      <form>
+      <form onSubmit={submitHandler}>
         <Heading
           children="Change Password"
           my={'16'}
@@ -32,7 +60,12 @@ const ChangePassword = () => {
             type="password"
             focusBorderColor="blue.500"
           />
-          <Button w={'full'} colorScheme="blue" type="submit">
+          <Button
+            isLoading={loading}
+            w={'full'}
+            colorScheme="blue"
+            type="submit"
+          >
             Change
           </Button>
         </VStack>

@@ -26,7 +26,8 @@ const CourseModal = ({
   deleteButtonHandler,
   addLectureHandler,
   courseTitle,
-  lectures = [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  lectures = [],
+  loading,
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -76,12 +77,13 @@ const CourseModal = ({
               {lectures.map((item, index) => (
                 <VideoCard
                   key={index}
-                  title="Django Intro"
-                  description="This is intro video, where you will learn basics of django."
+                  title={item.title}
+                  description={item.description}
                   num={index + 1}
-                  lectureId="sadsadada1"
+                  lectureId={item._id}
                   courseId={id}
                   deleteButtonHandler={deleteButtonHandler}
+                  loading={loading}
                 />
               ))}
             </Box>
@@ -112,7 +114,7 @@ const CourseModal = ({
                   <Input
                     required
                     accept="video/mp4"
-                    type="file"
+                    type={'file'}
                     focusBorderColor="purple.300"
                     css={{
                       '&::file-selector-button': {
@@ -129,7 +131,13 @@ const CourseModal = ({
                       src={videoPrev}
                     ></video>
                   )}
-                  <Button w={'full'} colorScheme="purple" type="submit">
+
+                  <Button
+                    isLoading={loading}
+                    w={'full'}
+                    colorScheme="purple"
+                    type="submit"
+                  >
                     Upload
                   </Button>
                 </VStack>
@@ -156,6 +164,7 @@ function VideoCard({
   lectureId,
   courseId,
   deleteButtonHandler,
+  loading,
 }) {
   return (
     <Stack
@@ -172,6 +181,7 @@ function VideoCard({
       </Box>
 
       <Button
+        isLoading={loading}
         color={'purple.600'}
         onClick={() => deleteButtonHandler(courseId, lectureId)}
       >

@@ -1,15 +1,45 @@
-import { Container, Button, Text, HStack, Heading, Input, Stack, VStack, Image, Link } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import {
+  Container,
+  Button,
+  Text,
+  HStack,
+  Heading,
+  Input,
+  Stack,
+  VStack,
+  Image,
+} from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllCourses } from '../../redux/actions/course';
+import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import {
+  clearCourseError,
+  clearCourseMessage,
+} from '../../redux/reducers/courseReducer';
+import { addToPlaylist } from '../../redux/actions/profile';
+import { loadUser } from '../../redux/actions/user';
 
-const Course = ({ views, title, imageSrc, id, addToPlaylistHandler, creator, description, lectureCount }) => {
+const Course = ({
+  views,
+  title,
+  imageSrc,
+  id,
+  addToPlaylistHandler,
+  creator,
+  description,
+  lectureCount,
+  loading,
+}) => {
   return (
-    <VStack className='course' alignItems={["center", "flex-start"]}>
+    <VStack className="course" alignItems={['center', 'flex-start']}>
       <Image src={imageSrc} boxSize="60" objectFit="contain" />
       <Heading
-        textAlign={["center", "left"]}
-        maxW={"200px"}
+        textAlign={['center', 'left']}
+        maxW={'200px'}
         size={'sm'}
-        fontFamily={"sans-serif"}
+        fontFamily={'sans-serif'}
         noOfLines={3}
         children={title}
       />
@@ -17,86 +47,95 @@ const Course = ({ views, title, imageSrc, id, addToPlaylistHandler, creator, des
 
       <HStack>
         <Text
-          children={"Creator"}
+          children={'Creator'}
           textTranform="uppercase"
-          fontWeight={"bold"}
+          fontWeight={'bold'}
         />
-        <Text
-          children={creator}
-          textTranform="uppercase"
-          fontFamily={"body"}
-        />
+        <Text children={creator} textTranform="uppercase" fontFamily={'body'} />
       </HStack>
 
       <Heading
-        textAlign={"center"}
-        size={"xs"}
+        textAlign={'center'}
+        size={'xs'}
         children={`Lectures - ${lectureCount}`}
-        textTransform={"uppercase"}
+        textTransform={'uppercase'}
       />
 
       <Heading
-        size={"xs"}
+        size={'xs'}
         children={`Views - ${views}`}
-        textTransform={"uppercase"}
+        textTransform={'uppercase'}
       />
 
-      <Stack 
-        direction={["column", "row"]}
-        alignItems={"center"}
-      >
-
+      <Stack direction={['column', 'row']} alignItems={'center'}>
         <Link to={`/course/${id}`}>
-          <Button colorScheme='blue'> Watch Now </Button>
+          <Button colorScheme="blue"> Watch Now </Button>
         </Link>
 
         <Button
-          variant={"ghost"}
-          colorScheme='blue'
-          onClick={() => addToPlaylistHandler()}
+          isLoading={loading}
+          variant={'ghost'}
+          colorScheme="blue"
+          onClick={() => addToPlaylistHandler(id)}
         >
-            Add To Playlist
+          Add To Playlist
         </Button>
-
       </Stack>
-
     </VStack>
-  )
-}
+  );
+};
 
 const Courses = () => {
-
   const [keyword, setKeyword] = useState('');
   const [category, setCategory] = useState('');
 
-  const addToPlaylistHandler = () => {
-    console.log("Added to Playlist");
-  }
+  const dispatch = useDispatch();
+
+  const addToPlaylistHandler = async courseId => {
+    await dispatch(addToPlaylist(courseId));
+    dispatch(loadUser());
+  };
 
   const categories = [
-    "Web Development",
-    "Artificial Intelligence",
-    "Data Structure & Algorithms",
-    "App Development",
-    "Data Science",
-    "Game Development"
+    'Web Development',
+    'Artificial Intelligence',
+    'Data Structure & Algorithms',
+    'App Development',
+    'Data Science',
+    'Game Development',
   ];
 
-  return (
-    <Container minH={"95vh"} maxW={"container.lg"} paddingY={"8"} >
+  const { loading, courses, error, message } = useSelector(
+    state => state.courses
+  );
 
-      <Heading children="All Courses" m={"8"} />
+  useEffect(() => {
+    dispatch(getAllCourses(category, keyword));
+
+    if (error) {
+      toast.error(error);
+      dispatch(clearCourseError(error));
+    }
+    if (message) {
+      toast.success(message);
+      dispatch(clearCourseMessage(message));
+    }
+  }, [category, keyword, dispatch, error, message]);
+
+  return (
+    <Container minH={'95vh'} maxW={'container.lg'} paddingY={'8'}>
+      <Heading children="All Courses" m={'8'} />
 
       <Input
         value={keyword}
         onChange={e => setKeyword(e.target.value)}
-        placeholder='Search a course...'
-        type='text'
+        placeholder="Search a course..."
+        type="text"
       />
 
       <HStack
-        overflowX={"auto"}
-        paddingY={"8"}
+        overflowX={'auto'}
+        paddingY={'8'}
         css={{
           '&::-webkit-scrollbar': {
             display: 'none',
@@ -111,25 +150,42 @@ const Courses = () => {
       </HStack>
 
       <Stack
-        direction={["column", "row"]}
+        direction={['column', 'row']}
         flexWrap="wrap"
-        justifyContent={["flex-start", "space-evenly"]}
-        alignItems={["center", "flex-start"]}
+        justifyContent={['flex-start', 'space-evenly']}
+        alignItems={['center', 'flex-start']}
       >
-
-        <Course
-          title={"Sample1"}
-          description={"Sample1 Description"}
+        {/* <Course
+          title={'Sample1'}
+          description={'Sample1 Description'}
           views={23}
-          imageSrc={"https://cdn.pixabay.com/photo/2024/03/09/02/26/bird-8621836_1280.jpg"}
-          id={"Sample1"}
-          creator={"Sample Boy"}
+          imageSrc={
+            'https://cdn.pixabay.com/photo/2024/03/09/02/26/bird-8621836_1280.jpg'
+          }
+          id={'Sample1'}
+          creator={'Sample Boy'}
           lectureCount={2}
           addToPlaylistHandler={addToPlaylistHandler}
-        />
-
+        /> */}
+        {courses.length > 0 ? (
+          courses.map(item => (
+            <Course
+              key={item._id}
+              title={item.title}
+              description={item.description}
+              views={item.views}
+              imageSrc={item.poster.url}
+              id={item._id}
+              creator={item.createdBy}
+              lectureCount={item.numOfVideos}
+              addToPlaylistHandler={addToPlaylistHandler}
+              loading={loading}
+            />
+          ))
+        ) : (
+          <Heading mt={'4'} children={'Courses Not Found'} />
+        )}
       </Stack>
-
     </Container>
   );
 };
