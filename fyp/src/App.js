@@ -27,6 +27,9 @@ import { clearError, clearMessage } from './redux/reducers/userReducer';
 import { loadUser } from './redux/actions/user';
 import { ProtectedRoute } from 'protected-route-react';
 import Loader from './components/Layout/Loader/Loader';
+import Contact from './components/Contact/Contact';
+import Request from './components/Request/Request';
+import Teach from './components/Teach/Teach';
 
 function App() {
   window.addEventListener('contextmenu', e => {
@@ -130,6 +133,9 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/request" element={<Request />} />
+            <Route path="/teach" element={<Teach />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/paymentsuccess" element={<PaymentSuccess />} />
             <Route path="/paymentfail" element={<PaymentFail />} />

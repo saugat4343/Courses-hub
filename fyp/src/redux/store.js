@@ -4,7 +4,7 @@ import profileReducer from './reducers/profileReducer';
 import courseReducer from './reducers/courseReducer';
 import subscriptionReducer from './reducers/subscriptionReducer';
 import adminReducer from './reducers/adminReducer';
-// import reducer from './reducers/combineReducers';
+import otherReducer from './reducers/otherReducer';
 
 const store = configureStore({
   reducer: {
@@ -13,9 +13,10 @@ const store = configureStore({
     courses: courseReducer,
     subscription: subscriptionReducer,
     admin: adminReducer,
+    other: otherReducer,
   },
 });
 
 export default store;
 
-export const server = 'https://courses-hub-4.onrender.com/api/v1';
+export const server = 'https://courses-hub-6.onrender.com/api/v1';

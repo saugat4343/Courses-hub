@@ -4,6 +4,7 @@ import {
   contact,
   courseRequest,
   getDashboardStats,
+  teach,
 } from "../controllers/otherController.js";
 
 const router = express.Router();
@@ -13,6 +14,9 @@ router.route("/contact").post(contact);
 
 // Request Form
 router.route("/courserequest").post(courseRequest);
+
+// Instructor Form
+router.route("/teach").post(teach);
 
 // Get Admin Dashboard Stats
 router

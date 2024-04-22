@@ -39,6 +39,24 @@ export const courseRequest = catchAsyncError(async (req, res, next) => {
   });
 });
 
+export const teach = catchAsyncError(async (req, res, next) => {
+  const { name, email, occupation, about } = req.body;
+
+  if (!name || !email || !occupation || !about)
+    return next(new ErrorHandler("All fields are mandatory", 400));
+
+  const to = process.env.MY_MAIL;
+  const subject = "Instructor Request on CoursesHub";
+  const text = `Name: ${name} \nEmail: ${email} \nOccupation: ${occupation} \nDescription: ${about}`;
+
+  await sendEmail(to, subject, text);
+
+  res.status(200).json({
+    success: true,
+    message: "Your Request has been sent Successfully",
+  });
+});
+
 export const getDashboardStats = catchAsyncError(async (req, res, next) => {
   const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(12);
 

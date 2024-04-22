@@ -34,4 +34,5 @@ app.get("/", (req, res) =>
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is working on port: ${process.env.PORT}`);
+  console.log(new Date(Date.now()) - new Date("2024-04-18T06:40:13.869+00:00"));
 });
