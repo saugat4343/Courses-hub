@@ -83,11 +83,11 @@ export const cancelSubscription = catchAsyncError(async (req, res, next) => {
 
   let refund = false;
 
-  await instance.subscriptions.cancel(subscriptionId);
-
   const payment = await Payment.findOne({
-    razorpay_subscripition_id: subscriptionId,
+    razorpay_subscription_id: subscriptionId,
   });
+
+  await instance.subscriptions.cancel(subscriptionId);
 
   const gap = new Date(Date.now()) - new Date(payment.createdAt);
 
