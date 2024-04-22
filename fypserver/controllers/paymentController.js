@@ -63,10 +63,10 @@ export const paymentVerification = catchAsyncError(async (req, res, next) => {
     `${process.env.FRONTEND_URL}/paymentsuccess?reference=${razorpay_payment_id}`
   );
 
-  res.status(201).json({
-    success: true,
-    subscriptionId: subscription.id,
-  });
+  // res.status(201).json({
+  //   success: true,
+  //   subscriptionId: subscription.id,
+  // });
 });
 
 export const getRazorPayKey = catchAsyncError(async (req, res, next) => {
@@ -89,7 +89,7 @@ export const cancelSubscription = catchAsyncError(async (req, res, next) => {
     razorpay_subscripition_id: subscriptionId,
   });
 
-  const gap = Date.now() - payment.createdAt;
+  const gap = new Date(Date.now()) - new Date(payment.createdAt);
 
   const refundTime = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000;
 
